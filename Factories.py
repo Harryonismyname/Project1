@@ -1,60 +1,135 @@
-from Workspace1 import (BodyPart, Finger, Hand, ArmSegment, Arm)
+from Assembly import *
 
-class FingerFactory:
 
-    def indexFinger(self):
-        return Finger(name="Index Finger", grip=4, health=4)
+#=================================================================================#
+#===================================================================Assemblies====#
+#=================================================================================#
+#---------------------------------------------------------------------------------#
+#----Assemblies take basic objects and assing them values to be used in-----------#
+#----Factories--------------------------------------------------------------------#
+#---------------------------------------------------------------------------------#
+class FingerAssembly:
+
+    def indexFinger(self, name=""):
+        return Finger(name=name + " Index Finger", grip=4, health=4)
         
-    def middleFinger(self):
-        return Finger(name="Middle Finger", grip=3, health=3)
+    def middleFinger(self, name=""):
+        return Finger(name=name + " Middle Finger", grip=3, health=3)
 
-    def ringFinger(self):
-        return Finger(name="Ring Finger", grip=2, health=2)
+    def ringFinger(self, name=""):
+        return Finger(name=name + " Ring Finger", grip=2, health=2)
 
-    def littleFinger(self):
-        return Finger(name="Little Finger", grip=4, health=4)
+    def littleFinger(self, name=""):
+        return Finger(name=name + " Little Finger", grip=4, health=4)
 
-    def thumb(self):
-        return Finger(name="Thumb", grip=5, health=5)
+    def thumb(self, name=""):
+        return Finger(name=name + " Thumb", grip=5, health=5)
 
-class HandFactory:
+class ToeAssembly:
 
-    def fiveFingerHand(self, name="Hand"):
-        ff = FingerFactory()
-        ffh = Hand(name=name)
-        ffh.addPart(ff.thumb())
-        ffh.addPart(ff.indexFinger())
-        ffh.addPart(ff.middleFinger())
-        ffh.addPart(ff.ringFinger())
-        ffh.addPart(ff.littleFinger())
-        ffh.checkGrip()
-        return ffh
+    def bigToe(self, side="Left"):
+        return Toe(name="{} Big Toe".format(side), health=5)
 
-class ArmSegementAssembly:
+    def secondToe(self, side="Left"):
+        return Toe(name="{} Second Toe".format(side), health=4)
 
-    def lowerArm(self):
-        return ArmSegment(name="Lower Arm", health=10)
+    def thirdToe(self, side="Left"):
+        return Toe(name="{} Third Toe".format(side), health=3)
+    
+    def fourthToe(self, side="Left"):
+        return Toe(name="{} Fourth Toe".format(side), health=2)
+    
+    def littleToe(self, side="Left"):
+        return Toe(name="{} Little Toe".format(side), health=1)
 
-    def upperArm(self):
-        return ArmSegment(name="Upper Arm", health=15)
+class LimbSegementAssembly:
 
+    def lowerArm(self, side="Left"):
+        return ArmSegment(name="{} Lower Arm".format(side), health=10)
 
-class ArmFactory:
+    def upperArm(self, side="Left"):
+        return ArmSegment(name="{} Upper Arm".format(side), health=15)
 
-    def twoPartArm(self):
-        asa = ArmSegementAssembly()
-        hf = HandFactory()
+    def lowerLeg(self, side="Left"):
+        return LegSegment(name="{} Lower Leg".format(side), health=10)
+
+    def upperLeg(self, side="Left"):
+        return LegSegment(name="{} Upper Leg".format(side), health=15)
+
+#=================================================================================#
+#====================================================================Factories====#
+#=================================================================================#
+#---------------------------------------------------------------------------------#
+#----Factories take rescources from Assemblies and put them together to make------#
+#----Larger objects---------------------------------------------------------------#
+#---------------------------------------------------------------------------------#
+
+class AppendageFactory:
+
+    def __init__(self):
+        self.fa = FingerAssembly()
+        self.ta = ToeAssembly()
         
-        upperArm = asa.upperArm()
-        lowerArm = asa.lowerArm()
-        hand = hf.fiveFingerHand()
-        upperArm.addPart(lowerArm)
-        lowerArm.addPart(hand)
-        
-        
-        return upperArm, lowerArm, hand
+    def fiveFingerHand(self, side="Left"):
+        fingerList = []
+        f1 = self.fa.thumb(name=side)
+        f2 = self.fa.indexFinger(name=side)
+        f3 = self.fa.middleFinger(name=side)
+        f4 = self.fa.ringFinger(name=side)
+        f5 = self.fa.littleFinger(name=side)
 
-me = ArmFactory()
-myArm = me.twoPartArm()
-for parts in myArm:
-    print(parts.name)
+        fingerList.append(f1)
+        fingerList.append(f2)
+        fingerList.append(f3)
+        fingerList.append(f4)
+        fingerList.append(f5)
+        return Hand(name="{} Hand".format(side), health=5, fingers=fingerList)
+    
+    def fiveToedFoot(self, side="Left"):
+        toeList =[]
+        t1 = self.ta.bigToe(side=side)
+        t2 = self.ta.secondToe(side=side)
+        t3 = self.ta.thirdToe(side=side)
+        t4 = self.ta.fourthToe(side=side)
+        t5 = self.ta.littleToe(side=side)
+
+        toeList.append(t1)
+        toeList.append(t2)
+        toeList.append(t3)
+        toeList.append(t4)
+        toeList.append(t5)
+        return Foot(name="{} Foot".format(side), health=5, toes=toeList)
+
+class LimbFactory:
+
+    def __init__(self):
+        self.lsa = LimbSegementAssembly()
+        self.af = AppendageFactory()
+
+    def twoPartArm(self, side="Left"):
+        shoulder = Shoulder("{} Shoulder".format(side))
+        upperArm = self.lsa.upperArm(side=side)
+        lowerArm = self.lsa.lowerArm(side=side)
+        hand = self.af.fiveFingerHand(side=side)
+        return TwoSegmentArm(shoulder, upperArm, lowerArm, hand)
+    
+    def twoPartLeg(self, side="Left"):
+        hip = Hip("{} Hip".format(side))
+        upperLeg = self.lsa.upperLeg(side=side)
+        lowerLeg = self.lsa.lowerLeg(side=side)
+        foot = self.af.fiveToedFoot()
+        return TwoSegmentLeg(hip=hip, foot=foot, upperLeg=upperLeg, lowerLeg=lowerLeg)
+
+
+me = LimbFactory()
+myLeftLeg = me.twoPartLeg(side="Left")
+myRightLeg = me.twoPartLeg(side="Right")
+myLeftArm = me.twoPartArm(side="Left")
+myRightArm = me.twoPartArm(side="Right")
+
+myBody = [myLeftArm, myRightArm, myLeftLeg, myRightLeg]
+for parts in myBody:
+    if type(parts)==TwoSegmentLeg:
+        parts.showLeg()
+    if type(parts)==TwoSegmentArm:
+        parts.showArm()
