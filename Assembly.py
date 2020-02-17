@@ -60,6 +60,16 @@ class Torso(BodyPart):
     
     def __init__(self, name='Torso', health=50):
         super().__init__(name=name, health=health)
+
+class Neck(BodyPart):
+
+    def __init__(self, name='Neck', health=10):
+        super().__init__(name=name, health=health)
+
+class Head(BodyPart):
+
+    def __init__(self, name="Head", health=20):
+        super().__init__(name=name, health=health)
 #=================================================================================#
 #=======================================================Appendage Parent Class====#
 #=================================================================================#
@@ -160,6 +170,29 @@ class Leg(Limb):
         For multi-segmented Legs, each segment must be listed in order from Hip to Foot.
         """
         super().__init__(joint=hip, appendage=foot, segments=segments)
+
+
+class Body:
+
+    def __init__(self, *segments):
+        """
+        Based on the number of Torso segments, list the segments in order from top to bottom
+        """
+        self.segments = segments
+
+    def checkSegment(self):
+        """
+        Checks each segment's .health value to verify it is greater than 0.\n
+        If Health is less than 0, the rest of the torso is destroyed.
+        """
+        for x in range(0, len(self.segments)-1):
+            if self.segments[x].health==0:
+                for y in range(x, len(self.segments)-1):
+                    self.segments[y].destroy()
+
+    def showBody(self):
+        for segments in self.segments:
+            segments.showHealth()
 #=================================================================================#
 #=====================================================================Entities====#
 #=================================================================================#
@@ -168,12 +201,17 @@ class Leg(Limb):
 #---------------------------------------------------------------------------------#
 class Entity:
 
-    def __init__(self, bodyParts=[]):
+    def __init__(self, name="Entity", *bodyParts):
+        """
+        An Entity is an object that contains limbs, appendages, and other Body Parts\n
+        to represent a creature instance.\n
+        Entities should be Assembled from head to foot, matching that of the humanoid physiology
+        """
+        self.name = name
         self.bodyParts = bodyParts
 
-    def showBody(self):
+    def show(self):
+        print(self.name)
         for parts in self.bodyParts:
-            if type(parts)==Appendage:
-                parts.showAppendage()
-            if type(parts)==Limb:
-                parts.show
+            if issubclass(type(parts), Limb):
+                parts.showSegments()
