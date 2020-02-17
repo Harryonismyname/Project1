@@ -111,25 +111,14 @@ class LimbFactory:
         upperArm = self.lsa.upperArm(side=side)
         lowerArm = self.lsa.lowerArm(side=side)
         hand = self.af.fiveFingerHand(side=side)
-        return TwoSegmentArm(shoulder, upperArm, lowerArm, hand)
+        return Arm(shoulder, hand, upperArm, lowerArm)
     
     def twoPartLeg(self, side="Left"):
         hip = Hip("{} Hip".format(side))
         upperLeg = self.lsa.upperLeg(side=side)
         lowerLeg = self.lsa.lowerLeg(side=side)
         foot = self.af.fiveToedFoot()
-        return TwoSegmentLeg(hip=hip, foot=foot, upperLeg=upperLeg, lowerLeg=lowerLeg)
+        return Leg(hip, foot, upperLeg, lowerLeg)
 
 
-me = LimbFactory()
-myLeftLeg = me.twoPartLeg(side="Left")
-myRightLeg = me.twoPartLeg(side="Right")
-myLeftArm = me.twoPartArm(side="Left")
-myRightArm = me.twoPartArm(side="Right")
 
-myBody = [myLeftArm, myRightArm, myLeftLeg, myRightLeg]
-for parts in myBody:
-    if type(parts)==TwoSegmentLeg:
-        parts.showLeg()
-    if type(parts)==TwoSegmentArm:
-        parts.showArm()
