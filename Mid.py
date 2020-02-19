@@ -1,27 +1,39 @@
 
 class BodyPart:
 
-    def __init__(self, name="Part", health=1):
-        self.name = name
-        self.health = health
-        self.maxHealth = self.health
+    __health = 0
+    __name = ""
+    __maxHealth = 0
 
-    def takeDamage(self, damage):
-        self.health -= damage
-        if self.health <= 0:
-            self.health = 0
-        print(f"{self.name} took {damage} damage!")
+    def setName(self, value):
+        self.__name = value
+
+    def setHealth(self, value):
+        self.__health = value
+    
+    def setMaxHealth(self, value):
+        self.__maxHealth = value
+
+    def getHealth(self):
+        return self.__health
+
+    def getName(self):
+        return self.__name
+
+    def getMaxHealth(self):
+        return self.__maxHealth
 
     def heal(self, amount=self.maxHealth):
         self.health += amount
         if self.health >= self.maxHealth:
             self.health = self.maxHealth
 
-    def showHealth(self):
-        print(f"{self.name} : {self.health}")
 
     def destroy(self):
-        self.health = 0.0
+        self.__health = 0
+
+    def show(self):
+        print(f"Name: {self.__name}:\nHealth: {self.__health}/{self.__maxHealth}")
 
 #=================================================================================#
 #===================================================================Body Parts====#
@@ -35,65 +47,88 @@ class BodyPart:
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::#
 class Shoulder(BodyPart):
 #---------------------------------------------------------------------------------#
-    def __init__(self, name='Shoulder', health=15):
-        super().__init__(name=name, health=health)
+    def __init__(self):
+        self.setName("Shoulder")
+        self.setHealth(15)
+        self.setMaxHealth(15)
 #=================================================================================#
 class ArmSegment(BodyPart):
 #---------------------------------------------------------------------------------#
-    def __init__(self, name="Arm Segment", health=10):
-        super().__init__(name, health)
+    def __init__(self):
+        self.setName("Arm Segment")
+        self.setHealth(10)
+        self.setMaxHealth(10)
 #=================================================================================#
 class Finger(BodyPart):
+    __grip = 0
 #---------------------------------------------------------------------------------#
-    def __init__(self, name="Finger", grip=0, health=1):
-        super().__init__(name, health)
-        self.grip = grip
+    def __init__(self):
+        self.setName("Finger")
+        self.setHealth(1)
+        self.setMaxHealth(1)
+        
+    def setGrip(self, value):
+        __grip = value
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::#
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::Legs::::#
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::#
 class Hip(BodyPart):
 #---------------------------------------------------------------------------------#
-    def __init__(self, name='Hip', health=15):
-        super().__init__(name=name, health=health)
+    def __init__(self):
+        self.setName("Hip")
+        self.setHealth(15)
+        self.setMaxHealth(15)
 #=================================================================================#
 class LegSegment(BodyPart):
 #---------------------------------------------------------------------------------#
-    def __init__(self, name='Leg Segment', health=10):
-        super().__init__(name=name, health=health)
+    def __init__(self):
+        self.setName("Leg Segment")
+        self.setHealth(10)
+        self.setMaxHealth(10)
 #=================================================================================#
 class Toe(BodyPart):
 #---------------------------------------------------------------------------------#
-    def __init__(self, name='Toe', health=1):
-        super().__init__(name=name, health=health)    
+    def __init__(self):
+        self.setName("Toe")
+        self.setHealth(1)
+        self.setMaxHealth(1)
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::#
 #::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::Body Segments::::#
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::#
 class Torso(BodyPart):
     
-    def __init__(self, name='Torso', health=50):
-        super().__init__(name=name, health=health)
+    def __init__(self):
+        self.setName("Torso")
+        self.setHealth(50)
+        self.setMaxHealth(50)
 
 class Neck(BodyPart):
 
-    def __init__(self, name='Neck', health=10):
-        super().__init__(name=name, health=health)
+    def __init__(self):
+        self.setName("Neck")
+        self.setHealth(10)
+        self.setMaxHealth(10)
 
 class Head(BodyPart):
 
-    def __init__(self, name="Head", health=20):
-        super().__init__(name=name, health=health)
+    def __init__(self):
+        self.setName("Head")
+        self.setHealth(20)
+        self.setMaxHealth(20)
 #=================================================================================#
 #=======================================================Appendage Parent Class====#
 #=================================================================================#
 class Appendage(BodyPart):                                                        
 #---------------------------------------------------------------------------------#
-    def __init__(self, name="Appendage", health=5, extremeties=[]):
+    __extremeties=[]                              
+    def __init__(self):
         """
         Appendages are Body Parts that contain a list of attached Body Parts
         and allow the assesment of the dependant Extremeties
         """
-        super().__init__(name=name, health=health)                 
-        self.extremeties=extremeties                               
+        self.setName("Appendage")
+        self.setHealth(5)
+        self.setMaxHealth(5)
 #---------------------------------------------------------------------------------#
     def checkDigits(self):                 
         if self.health==0:                 
@@ -102,21 +137,28 @@ class Appendage(BodyPart):
 #---------------------------------------------------------------------------------#
     def showAppendage(self):  
         print("")               
-        self.showHealth()
+        self.show()
         for digits in self.extremeties:
-            digits.showHealth()      
+            digits.show()      
+#---------------------------------------------------------------------------------#
+    def addExtremeties(self, other):
+        self.extremeties.append(other)
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::#
 #::::::::::::::::::::::::::::::::::::::::::::::::::::::::Appendage Sub-Classes::::#
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::#
 class Hand(Appendage):                                                            
 #---------------------------------------------------------------------------------#
-    def __init__(self, name="Hand", health=5, fingers=[]):        
-        super().__init__(name=name, health=health, extremeties=fingers) 
+    def __init__(self):        
+        self.setName("Hand")
+        self.setHealth(5)
+        self.setMaxHealth(5)
 #=================================================================================#
 class Foot(Appendage):                                                            #
 #---------------------------------------------------------------------------------#
-    def __init__(self, name='Foot', health=5, toes=[]):          
-        super().__init__(name=name, health=health, extremeties=toes)
+    def __init__(self):          
+        self.setName("Foot")
+        self.setHealth(5)
+        self.setMaxHealth(5)
 #=================================================================================#
 #============================================================Limb Parent Class====#
 #=================================================================================#
