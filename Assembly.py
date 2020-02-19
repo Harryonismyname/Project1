@@ -4,9 +4,21 @@ class BodyPart:
     def __init__(self, name="Part", health=1):
         self.name = name
         self.health = health
+        self.maxHealth = self.health
+
+    def takeDamage(self, damage):
+        self.health -= damage
+        if self.health <= 0:
+            self.health = 0
+        print(f"{self.name} took {damage} damage!")
+
+    def heal(self, amount=self.maxHealth):
+        self.health += amount
+        if self.health >= self.maxHealth:
+            self.health = self.maxHealth
 
     def showHealth(self):
-        print(self.name + " " + str(self.health))
+        print(f"{self.name} : {self.health}")
 
     def destroy(self):
         self.health = 0.0
@@ -88,7 +100,8 @@ class Appendage(BodyPart):
             for digits in self.extremeties:
                 digits.destroy()         
 #---------------------------------------------------------------------------------#
-    def showAppendage(self):                 
+    def showAppendage(self):  
+        print("")               
         self.showHealth()
         for digits in self.extremeties:
             digits.showHealth()      
@@ -113,13 +126,14 @@ class Foot(Appendage):                                                          
 #---------------------------------------------------------------------------------#
 class Limb:                           
     #---------------------------------------------------------------------------------#
-    def __init__(self, joint, appendage, segments=()):
+    def __init__(self, name, joint, appendage, segments=()):
         """
         Limbs are objects that store Body Parts in order from joint to appendage.\n
         A Limb always has a joint and an appendage.\n
         The number of segments in a limb may vary, but they must be listed in order descending from joint to appendage.
 
         """
+        self.name = name
         self.segments = segments
         self.joint = joint
         self.appendage = appendage
@@ -144,32 +158,36 @@ class Limb:
             self.appendage.checkDigits()
 #---------------------------------------------------------------------------------#
     def showSegments(self):
+        print(f"\n{self.name}:")
         self.joint.showHealth()
         for segment in self.segments:
             segment.showHealth()        
         self.appendage.showAppendage()
+#---------------------------------------------------------------------------------#
+    def recieveDamage(self, damage, target):
+        self.joint.health -= damage 
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::#
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::Limb Sub-Classes::::#
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::#
 class Arm(Limb):                                                                  
 #---------------------------------------------------------------------------------#    
-    def __init__(self, shoulder, hand, *segments):
+    def __init__(self, name, shoulder, hand, *segments):
         """
         A Shoulder is any Shoulder() and serves as the starting point for the arm.\n
         A Hand is any Appendage() and serves and the ending point for the arm.\n
         For multi-segmented arms, each segment must be listed in order from Shoulder to Hand.
         """
-        super().__init__(joint=shoulder, appendage=hand, segments=segments)
+        super().__init__(name=name, joint=shoulder, appendage=hand, segments=segments)
 #=================================================================================#
 class Leg(Limb):                                                                  
 #---------------------------------------------------------------------------------#
-    def __init__(self, hip, foot, *segments):
+    def __init__(self, name, hip, foot, *segments):
         """
         A Hip is any Hip() and serves as the starting point for the Leg.\n
         A Foot is any Appendage() and serves and the ending point for the Leg.\n
         For multi-segmented Legs, each segment must be listed in order from Hip to Foot.
         """
-        super().__init__(joint=hip, appendage=foot, segments=segments)
+        super().__init__(name=name, joint=hip, appendage=foot, segments=segments)
 
 
 class Body:
@@ -215,3 +233,12 @@ class Entity:
         for parts in self.bodyParts:
             if issubclass(type(parts), Limb):
                 parts.showSegments()
+            if issubclass(type(parts), BodyPart):
+                parts.showHealth()
+            if type(parts)==Body:
+                parts.showBody()
+
+    def kill(self):
+        for parts in self.bodyParts:
+            if issubclass(type(parts), Limb):
+                parts.destroy()
