@@ -1,4 +1,4 @@
-from Assembly import *
+from Mid import *
 
 
 #=================================================================================#
@@ -87,9 +87,8 @@ class BodyPartAssembly:
 #---------------------------------------------------------------------------------#
 
 class BodyFactory:
-
-    def __init__(self):
-        self.bpa = BodyPartAssembly()
+    
+    bpa = BodyPartAssembly()
 
     def twoPartTorso(self):
         upperTorso = self.bpa.upperBody()
@@ -102,8 +101,7 @@ class BodyFactory:
 
 class AppendageFactory:
 
-    def __init__(self):
-        self.bpa = BodyPartAssembly()
+    bpa = BodyPartAssembly()
         
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::#
 #::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::Hands::::#
