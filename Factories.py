@@ -162,7 +162,7 @@ class LimbFactory:
         upperArm = self.bpa.upperArm(side=side)
         lowerArm = self.bpa.lowerArm(side=side)
         hand = self.af.fiveFingerHand(side=side)
-        return Arm(shoulder, hand, upperArm, lowerArm)
+        return Arm(f"{side} Arm", shoulder, hand, upperArm, lowerArm)
     
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::#
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::Legs::::#
@@ -172,8 +172,8 @@ class LimbFactory:
         hip = Hip("{} Hip".format(side))
         upperLeg = self.bpa.upperLeg(side=side)
         lowerLeg = self.bpa.lowerLeg(side=side)
-        foot = self.af.fiveToedFoot()
-        return Leg(hip, foot, upperLeg, lowerLeg)
+        foot = self.af.fiveToedFoot(side=side)
+        return Leg(f"{side} Leg", hip, foot, upperLeg, lowerLeg)
 
 
 #=================================================================================#
@@ -188,7 +188,6 @@ class EntityFactory:
         self.bpa = BodyPartAssembly()
 
     def humanoid(self, name="Humanoid"):
-        partsList = []
         head = Head(name="Head", health=20)
         neck = Neck(name="Neck", health=10)
         torso = self.bf.twoPartTorso()
