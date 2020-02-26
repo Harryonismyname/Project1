@@ -1,9 +1,12 @@
+from abc import ABC, abstractmethod
+from High import *
 
-class BodyPart:
+class BodyPart(INamer, IHealer, IDestroyer, IShower):
 
-    __health = 0
-    __name = ""
-    __maxHealth = 0
+    def __init__(self):
+        self.__health = 0
+        self.__name = ""
+        self.__maxHealth = 0
 
     def setName(self, value):
         self.__name = value
@@ -23,142 +26,73 @@ class BodyPart:
     def getMaxHealth(self):
         return self.__maxHealth
 
-    def heal(self, amount=self.maxHealth):
-        self.health += amount
-        if self.health >= self.maxHealth:
-            self.health = self.maxHealth
-
+    def heal(self, amount):
+        self._BodyPart__health += amount
 
     def destroy(self):
-        self.__health = 0
+        self._BodyPart__health = 0
 
     def show(self):
-        print(f"Name: {self.__name}:\nHealth: {self.__health}/{self.__maxHealth}")
+        print(f"{self._BodyPart__name}:\nHealth {self._BodyPart__health}/{self._BodyPart__maxHealth}")
 
-#=================================================================================#
-#===================================================================Body Parts====#
-#=================================================================================#
-#---------------------------------------------------------------------------------#
-#----Individual Body Parts with unique values used in the modular construction----#
-#----of Limbs and Appendages------------------------------------------------------#
-#---------------------------------------------------------------------------------#
-#:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::#
-#:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::Arms::::#
-#:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::#
-class Shoulder(BodyPart):
-#---------------------------------------------------------------------------------#
-    def __init__(self):
-        self.setName("Shoulder")
-        self.setHealth(15)
-        self.setMaxHealth(15)
-#=================================================================================#
-class ArmSegment(BodyPart):
-#---------------------------------------------------------------------------------#
-    def __init__(self):
-        self.setName("Arm Segment")
-        self.setHealth(10)
-        self.setMaxHealth(10)
-#=================================================================================#
-class Finger(BodyPart):
-    __grip = 0
-#---------------------------------------------------------------------------------#
-    def __init__(self):
-        self.setName("Finger")
-        self.setHealth(1)
-        self.setMaxHealth(1)
-        
-    def setGrip(self, value):
-        __grip = value
-#:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::#
-#:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::Legs::::#
-#:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::#
-class Hip(BodyPart):
-#---------------------------------------------------------------------------------#
-    def __init__(self):
-        self.setName("Hip")
-        self.setHealth(15)
-        self.setMaxHealth(15)
-#=================================================================================#
-class LegSegment(BodyPart):
-#---------------------------------------------------------------------------------#
-    def __init__(self):
-        self.setName("Leg Segment")
-        self.setHealth(10)
-        self.setMaxHealth(10)
-#=================================================================================#
-class Toe(BodyPart):
-#---------------------------------------------------------------------------------#
-    def __init__(self):
-        self.setName("Toe")
-        self.setHealth(1)
-        self.setMaxHealth(1)
-#:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::#
-#::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::Body Segments::::#
-#:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::#
-class Torso(BodyPart):
-    
-    def __init__(self):
-        self.setName("Torso")
-        self.setHealth(50)
-        self.setMaxHealth(50)
 
-class Neck(BodyPart):
-
-    def __init__(self):
-        self.setName("Neck")
-        self.setHealth(10)
-        self.setMaxHealth(10)
-
-class Head(BodyPart):
-
-    def __init__(self):
-        self.setName("Head")
-        self.setHealth(20)
-        self.setMaxHealth(20)
 #=================================================================================#
 #=======================================================Appendage Parent Class====#
 #=================================================================================#
-class Appendage(BodyPart):                                                        
+class Appendage(INamer, IHealer, IShower, IAdder, IChecker, IDestroyer):                                                        
 #---------------------------------------------------------------------------------#
-    __extremeties=[]                              
+                              
     def __init__(self):
         """
         Appendages are Body Parts that contain a list of attached Body Parts
         and allow the assesment of the dependant Extremeties
         """
-        self.setName("Appendage")
-        self.setHealth(5)
-        self.setMaxHealth(5)
+        self.__extremeties=[]    
+        self.__name = ""
+        self.__health = 0
+        self.__maxHealth = 0
 #---------------------------------------------------------------------------------#
-    def checkDigits(self):                 
-        if self.health==0:                 
-            for digits in self.extremeties:
+    def setName(self, value):
+        self.__name = value
+
+    def getName(self):
+        return self.__name
+
+    def setHealth(self, value):
+        self.__health = value
+
+    def getHealth(self):
+        return self.__health()
+
+    def setMaxHealth(self, value):
+        self.__maxHealth = value
+        
+    def getMaxHealth(self):
+        return self.__maxHealth
+
+    def getTotalHealth(self):
+        self.__totalHeath = 0
+        for digits in self.__extremeties:
+            self.__totalHealth += digits.getHealth()
+        self.__totalHeath += self.__health
+        return self.__totalHeath
+
+    def destroy(self):
+        self.__health = 0
+
+    def check(self):                 
+        if self.__health==0:
+            for digits in self.__extremeties:
                 digits.destroy()         
 #---------------------------------------------------------------------------------#
-    def showAppendage(self):  
-        print("")               
-        self.show()
-        for digits in self.extremeties:
+    def show(self):    
+        print(f"{self.__name}:\nHealth: {self.__health}/{self.__maxHealth}")
+        for digits in self.__extremeties:
             digits.show()      
 #---------------------------------------------------------------------------------#
-    def addExtremeties(self, other):
-        self.extremeties.append(other)
-#:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::#
-#::::::::::::::::::::::::::::::::::::::::::::::::::::::::Appendage Sub-Classes::::#
-#:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::#
-class Hand(Appendage):                                                            
-#---------------------------------------------------------------------------------#
-    def __init__(self):        
-        self.setName("Hand")
-        self.setHealth(5)
-        self.setMaxHealth(5)
-#=================================================================================#
-class Foot(Appendage):                                                            #
-#---------------------------------------------------------------------------------#
-    def __init__(self):          
-        self.setName("Foot")
-        self.setHealth(5)
-        self.setMaxHealth(5)
+    def add(self, other):
+        self.__extremeties.append(other)
+
 #=================================================================================#
 #============================================================Limb Parent Class====#
 #=================================================================================#
@@ -166,121 +100,96 @@ class Foot(Appendage):                                                          
 #----Limbs are objects that contain Body Parts and allow for the assignment-------#
 #----of dependancies as well as the assesment of said dependancies----------------#
 #---------------------------------------------------------------------------------#
-class Limb:                           
-    #---------------------------------------------------------------------------------#
-    def __init__(self, name, joint, appendage, segments=()):
+class Limb(INamer, IAdder, IChecker, IHealer, IDestroyer, IShower):                           
+#--__init__-----------------------------------------------------------------------#
+    def __init__(self):
         """
         Limbs are objects that store Body Parts in order from joint to appendage.\n
         A Limb always has a joint and an appendage.\n
         The number of segments in a limb may vary, but they must be listed in order descending from joint to appendage.
-
         """
-        self.name = name
-        self.segments = segments
-        self.joint = joint
-        self.appendage = appendage
-#---------------------------------------------------------------------------------#
-    def checkSegment(self):
+        self.__name = ""
+        self.__segments = []
+        self.__joint = BodyPart()
+        self.__appendage = Appendage()
+#--check--------------------------------------------------------------------------#
+    def check(self):
         """
         Checks each segment's .health value to verify it is greater than 0.\n
         If Health is less than 0, the rest of the limb is destroyed.
         """
-        if self.joint.health==0:              
-            for segment in self.segments:
+        if self.__joint.getHealth()==0:              
+            for segment in self.__segments:
                 segment.destroy()        
-            self.appendage.destroy()
+            self.__appendage.destroy()
             self.appendage.checkDigits()
         for x in range(0, len(self.segments)-1):
             if self.segments[x].health==0:
                 for y in range(x, len(self.segments)-1):
                     segment[y].destroy()
-                self.appendage.destroy()
-                self.appendage.checkDigits()
-        if self.appendage.health==0:
-            self.appendage.checkDigits()
-#---------------------------------------------------------------------------------#
-    def showSegments(self):
-        print(f"\n{self.name}:")
-        self.joint.showHealth()
-        for segment in self.segments:
-            segment.showHealth()        
-        self.appendage.showAppendage()
-#---------------------------------------------------------------------------------#
-    def recieveDamage(self, damage, target):
-        self.joint.health -= damage 
-#:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::#
-#:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::Limb Sub-Classes::::#
-#:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::#
-class Arm(Limb):                                                                  
-#---------------------------------------------------------------------------------#    
-    def __init__(self, name, shoulder, hand, *segments):
-        """
-        A Shoulder is any Shoulder() and serves as the starting point for the arm.\n
-        A Hand is any Appendage() and serves and the ending point for the arm.\n
-        For multi-segmented arms, each segment must be listed in order from Shoulder to Hand.
-        """
-        super().__init__(name=name, joint=shoulder, appendage=hand, segments=segments)
-#=================================================================================#
-class Leg(Limb):                                                                  
-#---------------------------------------------------------------------------------#
-    def __init__(self, name, hip, foot, *segments):
-        """
-        A Hip is any Hip() and serves as the starting point for the Leg.\n
-        A Foot is any Appendage() and serves and the ending point for the Leg.\n
-        For multi-segmented Legs, each segment must be listed in order from Hip to Foot.
-        """
-        super().__init__(name=name, joint=hip, appendage=foot, segments=segments)
+                self.__appendage.destroy()
+                self.__appendage.check()
+        if self.__appendage.getHealth()==0:
+            self.__appendage.check()
+#--show---------------------------------------------------------------------------#
+    def show(self):
+        print(f"\n{self.__name}:")
+        self.__joint.show()
+        for segment in self.__segments:
+            segment.show()        
+        self.__appendage.show()
+#--add----------------------------------------------------------------------------#
+    def add(self, other):
+        self.__segments.append(other)
 
 
-class Body:
 
-    def __init__(self, *segments):
+
+class Body(IAdder, IChecker, IShower):
+
+    def __init__(self):
         """
         Based on the number of Torso segments, list the segments in order from top to bottom
         """
-        self.segments = segments
+        self.__segments = []
 
-    def checkSegment(self):
+    def check(self):
         """
         Checks each segment's .health value to verify it is greater than 0.\n
         If Health is less than 0, the rest of the torso is destroyed.
         """
-        for x in range(0, len(self.segments)-1):
-            if self.segments[x].health==0:
-                for y in range(x, len(self.segments)-1):
-                    self.segments[y].destroy()
+        for x in range(0, len(self.__segments)-1):
+            if self.__segments[x].getHealth()==0:
+                for y in range(x, len(self.__segments)-1):
+                    self.__segments[y].destroy()
 
-    def showBody(self):
-        for segments in self.segments:
+    def show(self):
+        for segments in self.__segments:
             segments.showHealth()
+
+    def add(self, other):
+        self.__segments.append(other)
 #=================================================================================#
 #=====================================================================Entities====#
 #=================================================================================#
 #----Entities are objects that contain Limbs, Appendages, and other Body Parts----#
 #---------------------------------------------------------------------------------#
 #---------------------------------------------------------------------------------#
-class Entity:
+class Entity(INamer, IShower, IAdder):
 
-    def __init__(self, name="Entity", *bodyParts):
+    def __init__(self):
         """
         An Entity is an object that contains limbs, appendages, and other Body Parts\n
         to represent a creature instance.\n
         Entities should be Assembled from head to foot, matching that of the humanoid physiology
         """
-        self.name = name
-        self.bodyParts = bodyParts
+        self.__name = ""
+        self.__bodyParts = []
 
     def show(self):
-        print(self.name)
-        for parts in self.bodyParts:
-            if issubclass(type(parts), Limb):
-                parts.showSegments()
-            if issubclass(type(parts), BodyPart):
-                parts.showHealth()
-            if type(parts)==Body:
-                parts.showBody()
+        print(self.__name)
+        for parts in self.__bodyParts:
+            parts.show()
 
-    def kill(self):
-        for parts in self.bodyParts:
-            if issubclass(type(parts), Limb):
-                parts.destroy()
+    def add(self, other):
+        self.__bodyParts.append(other)
