@@ -14,69 +14,162 @@ class BodyPartAssembly:
 #::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::Fingers::::#
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::#
 
-    def indexFinger(self, name=""):
-        return Finger(name=name + " Index Finger", grip=4, health=4)
+    def indexFinger(self, side=""):
+        indFinger = BodyPart()
+        indFinger.setName(f"{side} Index Finger")
+        indFinger.setMaxHealth(4)
+        indFinger.setHealth(4)
+        return indFinger
         
-    def middleFinger(self, name=""):
-        return Finger(name=name + " Middle Finger", grip=3, health=3)
+    def middleFinger(self, side=""):
+        midFinger = BodyPart()
+        midFinger.setName(f"{side} Middle Finger")
+        midFinger.setMaxHealth(3)
+        midFinger.setHealth(3)
+        return midFinger
 
-    def ringFinger(self, name=""):
-        return Finger(name=name + " Ring Finger", grip=2, health=2)
+    def ringFinger(self, side=""):
+       rinFinger = BodyPart()
+       rinFinger.setName(f"{side} Ring Finger")
+       rinFinger.setHealth(2)
+       rinFinger.setMaxHealth(2)
+       return rinFinger
 
-    def littleFinger(self, name=""):
-        return Finger(name=name + " Little Finger", grip=4, health=4)
+    def littleFinger(self, side=""):
+        litFinger = BodyPart()
+        litFinger.setName(f"{side} Little Finger")
+        litFinger.setHealth(4)
+        litFinger.setMaxHealth(4)
+        return litFinger
 
-    def thumb(self, name=""):
-        return Finger(name=name + " Thumb", grip=5, health=5)
+    def thumb(self, side=""):
+        thum = BodyPart()
+        thum.setName(f"{side} Thumb")
+        thum.setHealth(5)
+        thum.setMaxHealth(5)
+        return thum
 
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::#
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::Toes::::#
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::#
 
     def bigToe(self, side="Left"):
-        return Toe(name="{} Big Toe".format(side), health=5)
+        bt = BodyPart()
+        bt.setName(f"{side} Big Toe")
+        bt.setHealth(5)
+        bt.setMaxHealth(5)
+        return bt
 
     def secondToe(self, side="Left"):
-        return Toe(name="{} Second Toe".format(side), health=4)
+        st = BodyPart()
+        st.setName(f"{side} Second Toe")
+        st.setHealth(4)
+        st.setMaxHealth(4)
+        return st
 
     def thirdToe(self, side="Left"):
-        return Toe(name="{} Third Toe".format(side), health=3)
+        tt = BodyPart()
+        tt.setName(f"{side} Third Toe")
+        tt.setHealth(3)
+        tt.setMaxHealth(3)
+        return tt
     
     def fourthToe(self, side="Left"):
-        return Toe(name="{} Fourth Toe".format(side), health=2)
+        ft = BodyPart()
+        ft.setName(f"{side} Fourth Toe")
+        ft.setHealth(2)
+        ft.setMaxHealth(2)
+        return ft
     
     def littleToe(self, side="Left"):
-        return Toe(name="{} Little Toe".format(side), health=1)
+        lt = BodyPart()
+        lt.setName(f"{side} Little Toe")
+        lt.setHealth(1)
+        lt.setMaxHealth(1)
+        return lt
 
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::#
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::Arms::::#
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::#
 
+    def shoulder(self, side="Left"):
+        shldr = BodyPart()
+        shldr.setName(f"{side} Shoulder")
+        shldr.setHealth(15)
+        shldr.setMaxHealth(15)
+        return shldr
+
+    def hip(self, side="Left"):
+        hip = BodyPart()
+        hip.setName(f"{side} Hip")
+        hip.setHealth(15)
+        hip.setMaxHealth(15)
+        return hip
+
+    def neck(self):
+        neck = BodyPart()
+        neck.setName("Neck")
+        neck.setHealth(10)
+        neck.setMaxHealth(10)
+        return neck
+
+
+    def head(self):
+        head = BodyPart()
+        head.setName("Head")
+        head.setHealth(20)
+        head.setMaxHealth(20)
+        return head
+
     def lowerArm(self, side="Left"):
-        return ArmSegment(name="{} Lower Arm".format(side), health=10)
+        la = BodyPart()
+        la.setName(f"{side} Lower Arm")
+        la.setHealth(10)
+        la.setMaxHealth(10)
+        return la
 
     def upperArm(self, side="Left"):
-        return ArmSegment(name="{} Upper Arm".format(side), health=15)
+        ua = BodyPart()
+        ua.setName(f"{side} Upper Arm")
+        ua.setHealth(15)
+        ua.setMaxHealth(15)
+        return ua
 
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::#
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::Legs::::#
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::#
 
     def lowerLeg(self, side="Left"):
-        return LegSegment(name="{} Lower Leg".format(side), health=10)
+        ll = BodyPart()
+        ll.setName(f"{side} Lower Leg")
+        ll.setHealth(10)
+        ll.setMaxHealth(10)
+        return ll
 
     def upperLeg(self, side="Left"):
-        return LegSegment(name="{} Upper Leg".format(side), health=15)
+        ul = BodyPart()
+        ul.setName(f"{side} Upper Leg")
+        ul.setHealth(15)
+        ul.setMaxHealth(15)
+        return ul
 
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::#
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::Torso::::#
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::#
 
     def upperBody(self):
-        return Torso(name="Upper Body", health=50)
+        ub = BodyPart()
+        ub.setName("Upper Body")
+        ub.setHealth(50)
+        ub.setMaxHealth(50)
+        return ub
 
     def lowerBody(self):
-        return Torso(name="Lower Body", health=50)
+        lb = BodyPart()
+        lb.setName("Lower Body")
+        lb.setHealth(50)
+        lb.setMaxHealth(50)
+        return lb
 
 #=================================================================================#
 #====================================================================Factories====#
@@ -91,9 +184,12 @@ class BodyFactory:
     bpa = BodyPartAssembly()
 
     def twoPartTorso(self):
+        tpt = Body()
         upperTorso = self.bpa.upperBody()
         lowerTorso = self.bpa.lowerBody()
-        Body(upperTorso, lowerTorso)
+        tpt.add(upperTorso)
+        tpt.add(lowerTorso)
+        return tpt
 
 #=================================================================================#
 #============================================================Appendage Factory====#
@@ -108,70 +204,65 @@ class AppendageFactory:
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::#
 
     def fiveFingerHand(self, side="Left"):
-        fingerList = []
-        f1 = self.bpa.thumb(name=side)
-        f2 = self.bpa.indexFinger(name=side)
-        f3 = self.bpa.middleFinger(name=side)
-        f4 = self.bpa.ringFinger(name=side)
-        f5 = self.bpa.littleFinger(name=side)
-
-        fingerList.append(f1)
-        fingerList.append(f2)
-        fingerList.append(f3)
-        fingerList.append(f4)
-        fingerList.append(f5)
-        return Hand(name="{} Hand".format(side), health=5, fingers=fingerList)
+        ffh = Appendage()
+        ffh.setName(f"{side} Hand")
+        ffh.setHealth(5)
+        ffh.setMaxHealth(5)
+        ffh.add([self.bpa.thumb(side=side), self.bpa.indexFinger(side=side), 
+                    self.bpa.middleFinger(side=side), self.bpa.ringFinger(side=side),
+                    self.bpa.littleFinger(side=side)])
+        return ffh
     
+
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::#
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::Feet::::#
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::#
 
     def fiveToedFoot(self, side="Left"):
-        toeList =[]
-        t1 = self.bpa.bigToe(side=side)
-        t2 = self.bpa.secondToe(side=side)
-        t3 = self.bpa.thirdToe(side=side)
-        t4 = self.bpa.fourthToe(side=side)
-        t5 = self.bpa.littleToe(side=side)
-
-        toeList.append(t1)
-        toeList.append(t2)
-        toeList.append(t3)
-        toeList.append(t4)
-        toeList.append(t5)
-        return Foot(name="{} Foot".format(side), health=5, toes=toeList)
+        ftf = Appendage()
+        ftf.setName(f"{side} Foot")
+        ftf.setHealth(5)
+        ftf.setMaxHealth(5)
+        ftf.add([self.bpa.bigToe(side=side), self.bpa.secondToe(side=side),
+                self.bpa.thirdToe(side=side), self.bpa.fourthToe(side=side),
+                self.bpa.littleToe(side=side)])
+        return ftf
 
 #=================================================================================#
 #=================================================================Limb Factory====#
 #=================================================================================#
 
 class LimbFactory:
-
-    def __init__(self):
-        self.bpa = BodyPartAssembly()
-        self.af = AppendageFactory()
+    bpa = BodyPartAssembly()
+    af = AppendageFactory()
 
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::#
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::Arms::::#
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::#
 
     def twoPartArm(self, side="Left"):
-        shoulder = Shoulder("{} Shoulder".format(side))
-        upperArm = self.bpa.upperArm(side=side)
-        lowerArm = self.bpa.lowerArm(side=side)
-        hand = self.af.fiveFingerHand(side=side)
-        return Arm(f"{side} Arm", shoulder, hand, upperArm, lowerArm)
+        tpa = Limb()
+        tpa.setName(f"{side} Arm")
+        tpa.setJoint(self.bpa.shoulder(side=side))
+        tpa.setAppendage(self.af.fiveFingerHand(side=side))
+        tpa.add([self.bpa.upperArm(side=side), self.bpa.lowerArm(side=side)])
+        return tpa
     
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::#
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::Legs::::#
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::#
 
     def twoPartLeg(self, side="Left"):
-        hip = Hip("{} Hip".format(side))
+        tpl = TwoSegmentLimb()
+        tpl.setName(f"{side} Leg")
+        tpl.setJoint(self.bpa.hip(side=side))
+        tpl.setAppendage(self.af.fiveToedFoot(side=side))
         upperLeg = self.bpa.upperLeg(side=side)
         lowerLeg = self.bpa.lowerLeg(side=side)
-        foot = self.af.fiveToedFoot(side=side)
-        return Leg(f"{side} Leg", hip, foot, upperLeg, lowerLeg)
+        tpl.add([upperLeg, lowerLeg])
+        tpl.setUpperLimb(upperLeg)
+        tpl.setLowerLimb(lowerLeg)
+        return tpl
 
 
 #=================================================================================#
@@ -180,21 +271,46 @@ class LimbFactory:
 
 class EntityFactory:
 
-    def __init__(self):
-        self.lf = LimbFactory()
-        self.bf =BodyFactory()
-        self.bpa = BodyPartAssembly()
+    lf = LimbFactory()
+    bf =BodyFactory()
+    bpa = BodyPartAssembly()
 
     def humanoid(self, name="Humanoid"):
-        head = Head(name="Head", health=20)
-        neck = Neck(name="Neck", health=10)
+        entity = Humanoid()
+        entity.setName(name)
+        
+        head = self.bpa.head()
+        entity.add(head) # Adding Head
+        entity.setHead(head)
+        
+        neck = self.bpa.neck()
+        entity.add(neck) # Adding Neck
+        entity.setNeck(neck)
+
         torso = self.bf.twoPartTorso()
+        entity.add(torso) # Adding Torso
+        entity.setTorso(torso)
+
         leftArm = self.lf.twoPartArm("Left")
+        entity.add(leftArm) # Adding Left Arm
+        entity.setLeftArm(leftArm)
+
         rightArm = self.lf.twoPartArm("Right")
+        entity.add(rightArm) # Adding Right Arm
+        entity.setRightArm(rightArm)
+
         leftLeg = self.lf.twoPartLeg("Left")
+        entity.add(leftLeg) # Adding Left Leg
+        entity.setLeftLeg(leftLeg)
+
         rightLeg = self.lf.twoPartLeg("Right")
-        return Entity(name, head, neck, torso, leftArm, rightArm, leftLeg, rightLeg)
+        entity.add(rightLeg) # Adding Right Leg
+        entity.setRightLeg(rightLeg)
+
+        
+        return entity
+"""
 
 
 
-
+"""
